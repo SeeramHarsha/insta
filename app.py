@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # MongoDB setup (replace with your MongoDB URI)
 app.config['MONGO_URI'] = 'mongodb+srv://Harsha1234:Harsha1234@cluster1.nwz3t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1'  # MongoDB URI
-app.secret_key = 'your_secret_key'  # Set a secret key for session management
+
 
 mongo = PyMongo(app)
 
