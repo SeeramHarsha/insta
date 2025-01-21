@@ -22,9 +22,11 @@ def register():
     data = request.json
     email = data.get('email')
     password = data.get('password')
+    full_name = data.get('full_name')
+    age = data.get('age')
 
-    if not email or not password:
-        return jsonify({"error": "Email and password are required"}), 400
+    if not email or not password or not full_name or not age:
+        return jsonify({"error": "Email, password, full name, and age are required"}), 400
 
     # Check if user already exists
     if users_collection.find_one({"email": email}):
@@ -34,7 +36,12 @@ def register():
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     # Insert user into the database
-    users_collection.insert_one({"email": email, "password": hashed_password})
+    users_collection.insert_one({
+        "email": email,
+        "password": hashed_password,
+        "full_name": full_name,
+        "age": age
+    })
 
     return jsonify({"message": "User registered successfully"}), 201
 
@@ -64,7 +71,10 @@ def login():
     if not bcrypt.checkpw(password.encode('utf-8'), stored_password.encode('utf-8')):
         return jsonify({"error": "Invalid email or password"}), 401
 
-    return jsonify({"message": "Login successful", "user": {"email": email}}), 200
+    return jsonify({
+        "message": "Login successful",
+        "user": {"email": email, "full_name": user['full_name'], "age": user['age']}
+    }), 200
 
 
 if __name__ == "__main__":
