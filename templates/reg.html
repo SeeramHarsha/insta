@@ -72,6 +72,8 @@
         <form id="register-form" class="active">
             <input type="email" id="register-email" placeholder="Email" required>
             <input type="password" id="register-password" placeholder="Password" required>
+            <input type="text" id="register-full-name" placeholder="Full Name" required>
+            <input type="number" id="register-age" placeholder="Age" required>
             <button type="button" onclick="register()">Register</button>
         </form>
         <!-- Login Form -->
@@ -108,13 +110,15 @@
         async function register() {
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
+            const fullName = document.getElementById('register-full-name').value;
+            const age = document.getElementById('register-age').value;
 
             const response = await fetch('/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password, full_name: fullName, age }),
             });
 
             const data = await response.json();
